@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from '../../assets/img/logo.svg';
-import Greetings from '../../containers/Greetings/Greetings';
-import './Popup.css';
+import * as React from "react";
 
 const Popup = () => {
+  const [apiKey, setApiKey] = React.useState("");
+
+  React.useEffect(() => {
+    chrome?.storage?.local?.get(["openAiApiKey"]).then(({ apiKey }) => {
+      setApiKey(apiKey || "");
+    });
+  }, []);
+
+  const updateApiKeys = (apiKey) => {
+    chrome?.storage?.local?.set({ openAiApiKey: apiKey }, () => {
+      setApiKey(apiKey);
+    });
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/pages/Popup/Popup.jsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React!
-        </a>
-      </header>
+    <div className="container">
+      <form>
+        <div className="mb-3">
+          <label for="apiKey" className="form-label">API Key</label>
+          <input type="text" name="apiKey" id="apiKey" placeholder="Enter your Open AI API Key" value={apiKey} onChange={(e) => updateApiKeys(e.target.value)} />
+          <div className="form-text">
+            You can get your API key from <a href="https://platform.openai.com/account/api-keys" target="_blank" rel="noreferrer">here</a>
+          </div>
+        </div>
+      </form>
     </div>
   );
 };

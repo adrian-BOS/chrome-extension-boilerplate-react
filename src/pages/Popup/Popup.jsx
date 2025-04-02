@@ -4,15 +4,13 @@ const Popup = () => {
   const [apiKey, setApiKey] = React.useState("");
 
   React.useEffect(() => {
-    chrome?.storage?.local?.get(["openAiApiKey"]).then(({ apiKey }) => {
-      setApiKey(apiKey || "");
-    });
+    const storedApiKey = localStorage.getItem("openAiApiKey");
+    setApiKey(storedApiKey || "");
   }, []);
 
   const updateApiKeys = (apiKey) => {
-    chrome?.storage?.local?.set({ openAiApiKey: apiKey }, () => {
-      setApiKey(apiKey);
-    });
+    localStorage.setItem("openAiApiKey", apiKey);
+    setApiKey(apiKey);
   };
   return (
     <div className="container">

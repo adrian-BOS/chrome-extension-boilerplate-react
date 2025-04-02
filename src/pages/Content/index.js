@@ -1,6 +1,8 @@
-import { printLine } from './modules/print';
 
-console.log('Content script works!');
-console.log('Must reload extension for modifications to take effect.');
+setInterval(() => {
+  const gmailForm = document.querySelector("div[g_editable");
 
-printLine("Using the 'printLine' function from the Print Module");
+  if (gmailForm) {
+    console.log(gmailForm);
+  }
+}, 1000);
